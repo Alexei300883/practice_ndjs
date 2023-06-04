@@ -1,5 +1,7 @@
+#!/usr/bin/env node
 const readline = require("readline");
 const { handlerRandomNumber } = require("./helpers.js");
+
 
 const rl = readline.createInterface({
   input: process.stdin,
