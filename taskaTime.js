@@ -51,3 +51,4 @@ if (params) {
 }
 
 console.log(params, $0, rest);
+console.log("hhkahkslnaolnfeo")
