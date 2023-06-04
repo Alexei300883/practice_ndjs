@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const yargs = require("yargs/yargs");
 const { hideBin } = require("yargs/helpers");
-const {months} = require("./helpers.js")
+const { months } = require("./helpers.js");
 
 const {
   _: params,
@@ -17,7 +17,7 @@ const { d, date, m, month, y, year } = rest;
 const currentDate = new Date();
 let flag;
 
-let num = d || date || m || month;
+const num = d || date || m || month;
 
 if (year || y) {
   flag = "year";
@@ -27,36 +27,35 @@ if (year || y) {
   flag = "date";
 }
 
-
 const handlerDates = (key, com, num) => {
   switch (key) {
     case "year":
-      console.log(`${currentDate.getFullYear()} год`);
-      break;
+      return `${currentDate.getFullYear()} год`;
     case "month":
       if (com === "add") {
-        console.log(months[currentDate.getMonth() + num]);
+        return months[currentDate.getMonth() + num];
       } else if (com === "sub") {
-        console.log(months[currentDate.getMonth() - num]);
+        return months[currentDate.getMonth() - num];
       } else if (com === "current") {
-        console.log(months[currentDate.getMonth()]);
+        return months[currentDate.getMonth()];
       }
       break;
     case "date":
       if (com === "add") {
-        console.log(`сегодня ${currentDate.getDate() + num} число`);
+        return `результат ${currentDate.getDate() + num} число`;
       } else if (com === "sub") {
-        console.log(`сегодня ${currentDate.getDate() - num} число`);
+        return `результат ${currentDate.getDate() - num} число`;
       } else if (com === "current") {
-        console.log(`сегодня ${currentDate.getDate()} число`);
+        return `сегодня ${currentDate.getDate()} число`;
       }
       break;
     default:
-      console.log(currentDate);
+      return currentDate;
   }
 };
 
 if (params.length) {
-  let comand = params.toString();
-  handlerDates(flag, comand, num);
+  const comand = params.toString();
+  const result = handlerDates(flag, comand, num);
+  console.log(result);
 }

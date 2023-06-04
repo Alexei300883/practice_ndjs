@@ -1,16 +1,21 @@
 const months = [
-    "январь",
-    "февраль",
-    "март",
-    "апрель",
-    "май",
-    "июнь",
-    "июль",
-    "август",
-    "сентябрь",
-    "октябрь",
-    "ноябрь",
-    "декабрь",
-  ];
+  "январь",
+  "февраль",
+  "март",
+  "апрель",
+  "май",
+  "июнь",
+  "июль",
+  "август",
+  "сентябрь",
+  "октябрь",
+  "ноябрь",
+  "декабрь",
+];
 
-module.exports = {months}  
+const handlerRandomNumber = (min, max) => {
+  const res = Math.random() * (max - min) + min;
+  return Math.floor(res);
+};
+
+module.exports = { months, handlerRandomNumber };
