@@ -14,8 +14,11 @@ const months = [
 ];
 
 const handlerRandomNumber = (min, max) => {
-  const res = Math.random() * (max - min) + min;
-  return Math.floor(res);
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min
+  // const res = Math.random() * (max - min) + min;
+  // return Math.floor(res);
 };
 
 module.exports = { months, handlerRandomNumber };
