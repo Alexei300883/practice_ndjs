@@ -5,7 +5,8 @@
   "main": "date.js",
   "bin": {
     "date-start": "./lesson/dates.js",
-    "start-game": "./index.js"
+    "start-game": "./index.js",
+    "start-analyzer": "analyzer.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
