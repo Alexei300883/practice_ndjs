@@ -1,106 +1,108 @@
-const http = require("http");
-const url = require("url");
+const express = require("express");
+const { v4: uuid } = require("uuid");
 
+class Books {
+  constructor(
+    title = "",
+    description = "",
+    id = uuid(),
+    authors = "",
+    favorite = "",
+    fileCover = "",
+    fileName = ""
+  ) {
+    this.title = title;
+    this.description = description;
+    this.id = id;
+    this.authors = authors;
+    this.favorite = favorite;
+    this.fileCover = fileCover;
+    this.fileName = fileName;
+  }
+}
 
-
-const fetchWeater = (city) => {
-  console.log(city, "ciyu");
-  const myAPIKey = process.env.myKey;
-  const url = `http://api.weatherstack.com/current?access_key=${myAPIKey}&query=${city}`;
-  http
-    .get(url, (res) => {
-      const { statusCode } = res;
-      if (statusCode !== 200) {
-        console.log(`statusCode: ${statusCode}`);
-        return;
-      }
-      res.setEncoding("utf8");
-      let rowData = "";
-      res.on("data", (chunk) => (rowData += chunk));
-      res.on("end", () => {
-        let parseData = JSON.parse(rowData);
-        console.log(parseData);
-  });
-    })
-    .on("error", (err) => {
-      console.error(err);
-    });
+const stor = {
+  books: [new Books(), new Books()],
+  user: { id: 1, mail: "test@mail.ru" },
 };
 
-// const getWather = () => {
-//   return (
-//     `<p class="text-left">Сегодня в ${parseData.location.name} ${parseData.current.temperature} градуса</p>
-// <p class="text-left">скорость ветра ${parseData.current.wind_speed} м/с влажность ${parseData.current} видимость${parseData.current}</p>`
-//     )
-// }
+const app = express();
+app.use(express.json());
 
-const getFormCreateComponent = () => `
-  <form 
-    method="POST"
-    action="/"
-  >
-  <input
-    name="count"
-    type="text"
-    required
-  />
-    <button
-      class="btn btn-sm btn-success"
-      type="submit"
-    >
-      создать
-    </button>
-  </form>
-`;
+app.get("/api/user/login", (req, res) => {
+  const { user } = stor;
+  res.json(user);
+});
 
-const layoutStart = `
-  <link
-    rel="stylesheet" 
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
-    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" 
-    crossorigin="anonymous"
-  />
-    <div class="container pt-5">
-`;
+app.get("/api/books", (req, res) => {
+  const { books } = stor;
+  res.json(books);
+});
 
-const layoutEnd = `</div>`;
-
-const server = http.createServer((req, res) => {
-  const urlParsed = url.parse(req.url, true);
-  const { pathname, query } = urlParsed;
-  const { method } = req;
-
-  res.setHeader("Content-Type", "text/html; charset=utf-8;");
-
-  if (pathname === "/" || pathname === "/index") {
-    if (method === "GET") {
-      res.write(layoutStart);
-      res.write(`<h2>Новая запись</h2>`);
-      res.write(getFormCreateComponent());
-      res.write(layoutEnd);
-    } else if (method === "POST") {
-      let body = [];
-      req
-        .on("data", (chunk) => {
-          body.push(chunk);
-        })
-        .on("end", () => {
-          body = Buffer.concat(body).toString().split("=")[1];
-          fetchWeater(body)
-        });
-
-      res.statusCode = 302;
-      res.setHeader("Location", "/");
-    }
+app.get("/api/books/:id", (req, res) => {
+  const { books } = stor;
+  const { id } = req.params;
+  const idx = books.findIndex((el) => el.id === id);
+  if (idx !== -1) {
+    res.json(books[idx]);
   } else {
-    res.statusCode = 404;
-    res.write(layoutStart);
-    res.write(`<h2>404 | Страница не найдена</h2>`);
-    res.write(layoutEnd);
+    res.status(404);
+    res.json("404 | страница не найдена");
   }
+});
 
-  res.end();
+app.post("/api/books", (req, res) => {
+  const { books } = stor;
+  const { title, description, authors, favorite, fileCover, fileName } =
+    req.body;
+  const newBooks = new Books(
+    title,
+    description,
+    authors,
+    favorite,
+    fileCover,
+    fileName
+  );
+  todo.push(newBooks);
+  res.status(201);
+  res.json(newBooks);
+});
+
+app.put("/api/books/:id", (req, res) => {
+  const { books } = stor;
+  const { title, description, authors, favorite, fileCover, fileName } =
+    req.body;
+  const { id } = req.params;
+  const idx = books.findIndex((el) => el.id === id);
+  if (idx !== -1) {
+    books[idx] = {
+      ...books[idx],
+      title,
+      description,
+      authors,
+      favorite,
+      fileCover,
+      fileName,
+    };
+    res.json(books[idx]);
+  } else {
+    res.status(404);
+    res.json("404 | страница не найдена");
+  }
+});
+
+app.delete("/api/books/:id", (req, res) => {
+  const { books } = stor;
+  const { id } = req.params;
+  const idx = books.findIndex((el) => el.id === id);
+  if (idx !== -1) {
+    books.splice(idx, 1);
+    res.json("ok");
+  } else {
+    res.status(404);
+    res.json("404 | страница не найдена");
+  }
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT);
+app.listen(PORT);
