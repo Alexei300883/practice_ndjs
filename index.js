@@ -15,6 +15,7 @@ app.use(express.json());
 
 
 app.use(logger)
+// app.use('/public', express.static(__dirname+'/public'))
 app.use("/", indexRouter)
 app.use("/api", userRouter)
 app.use("/api", booksRouter)
