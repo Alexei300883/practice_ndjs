@@ -1,0 +1,31 @@
+терминал 1
+
+C:\Users\Alexey\Desktop\Docker>docker run --name first_node --rm -it -v %cd%\data:/data node:19.8
+Welcome to Node.js v19.8.1.
+Type ".help" for more information.
+>
+(To exit, press Ctrl+C again or Ctrl+D or type .exit)
+>
+C:\Users\Alexey\Desktop\Docker>docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+C:\Users\Alexey\Desktop\Docker>
+
+терминал 2
+
+C:\Users\Alexey\Desktop\Docker>docker run --name second_node --rm -it -v %cd%\data:/data node:19.8
+Welcome to Node.js v19.8.1.
+Type ".help" for more information.
+>
+(To exit, press Ctrl+C again or Ctrl+D or type .exit)
+>
+C:\Users\Alexey\Desktop\Docker>docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+C:\Users\Alexey\Desktop\Docker>
+
+терминал 3
+
+C:\Users\Alexey\Desktop\Docker>docker exec first_node touch /data/home.txt
+C:\Users\Alexey\Desktop\Docker>docker exec second_node ls /data
+home.txt
+home1.txt
+C:\Users\Alexey\Desktop\Docker>
