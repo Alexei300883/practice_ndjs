@@ -1,0 +1,7 @@
+.wraper {
+    gap:30px;
+    display: flex;
+    width: 1030px;
+    flex-direction: column;
+    margin-left: calc(50% / 2);
+}

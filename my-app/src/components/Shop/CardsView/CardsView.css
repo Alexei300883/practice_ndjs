@@ -1,0 +1,30 @@
+.cardsitem_conteiner {
+    background-color: hsl(0, 23%, 97%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.cardsview-wraper {
+    display: flex;
+    gap: 10px;
+    flex-direction:column;
+    padding: 20px;
+}
+
+.cardsitem-add {
+    border: 1px solid red;
+    padding: 4px 10px 4px 10px;
+    border-radius: 16px;
+}
+.cardsitem-text {
+    color: red;
+}
+.cardsitem-text-add {
+    color: red;
+    font-size: 10px;
+}
+
